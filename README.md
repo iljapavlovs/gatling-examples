@@ -96,6 +96,9 @@ Plugin config:
       </plugin>
 ```
 
+# Reports
+![img.png](img.png)
+
 
 ### Introduction to Load Testing with Gatling
 

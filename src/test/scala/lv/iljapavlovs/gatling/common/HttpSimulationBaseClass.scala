@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package se.ivankrizsan.gatling.common
+package lv.iljapavlovs.gatling.common
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
@@ -38,7 +38,7 @@ abstract class HttpSimulationBaseClass extends Simulation {
     /* Final number of users in the simulation. */
     protected var finalUserCount = 10
     /* Time period after which the number of users is to reach the final number of users. */
-    protected var userCountRampUpTime : FiniteDuration = (20 seconds)
+    protected var userCountRampUpTime : FiniteDuration = (20.seconds)
 
     /**
       * Creates the HTTP protocol builder used in the simulation.

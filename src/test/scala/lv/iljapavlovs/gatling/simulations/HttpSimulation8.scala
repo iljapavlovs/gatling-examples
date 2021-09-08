@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package se.ivankrizsan.gatling.simulations
+package lv.iljapavlovs.gatling.simulations
 
-import se.ivankrizsan.gatling.common.HttpSimulationBaseClass
+import lv.iljapavlovs.gatling.common.HttpSimulationBaseClass
 
 import scala.concurrent.duration._
 
@@ -30,7 +30,7 @@ class HttpSimulation8 extends HttpSimulationBaseClass{
     scenario1BaseURL = "http://computer-database.gatling.io"
     scenario1RequestPath = "computers"
     finalUserCount = 4
-    userCountRampUpTime = (5 seconds)
+    userCountRampUpTime = (5.seconds)
 
     /*
      * doSetUp needs to be called here, after the instance variables have been

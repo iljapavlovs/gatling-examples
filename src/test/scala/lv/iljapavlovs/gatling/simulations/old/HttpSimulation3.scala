@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lv.iljapavlovs.gatling.simulations
+package lv.iljapavlovs.gatling.simulations.old
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
@@ -21,17 +21,15 @@ import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
 
-import scala.concurrent.duration._
-
 /**
-  * Example Gatling load test simulating a number of users that rises up to 10 users over
-  * a period of 20 seconds.
+  * Example Gatling load test simulating ten users that each sends one single HTTP GET request.
+  * All the users will start sending requests immediately when the simulation is started.
   * Run this simulation with:
-  * mvn -Dgatling.simulation.name=HttpSimulation4 gatling:test
+  * mvn -Dgatling.simulation.name=HttpSimulation3 gatling:test
   *
   * @author Ivan Krizsan
   */
-class HttpSimulation4 extends Simulation {
+class HttpSimulation3 extends Simulation {
 
     val theHttpProtocolBuilder: HttpProtocolBuilder = http
         .baseUrl("http://computer-database.gatling.io")
@@ -39,13 +37,13 @@ class HttpSimulation4 extends Simulation {
     val theScenarioBuilder: ScenarioBuilder = scenario("Scenario1")
         .exec(
             http("myRequest1")
-                .get("/"))
+                .get("/computers"))
 
     setUp(
         /*
-         * Increase the number of users that sends requests in the scenario Scenario1 to
-         * ten users during a period of 20 seconds.
+         * Here we specify that ten simulated users shall start sending requests immediately
+         * in the Scenario1 scenario.
          */
-        theScenarioBuilder.inject(rampUsers(20).during(5.seconds))
+        theScenarioBuilder.inject(atOnceUsers(10))
     ).protocols(theHttpProtocolBuilder)
 }

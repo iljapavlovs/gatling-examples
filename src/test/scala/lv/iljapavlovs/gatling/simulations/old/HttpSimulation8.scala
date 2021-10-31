@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lv.iljapavlovs.gatling.simulations
+package lv.iljapavlovs.gatling.simulations.old
 
 import lv.iljapavlovs.gatling.common.HttpSimulationBaseClass
 

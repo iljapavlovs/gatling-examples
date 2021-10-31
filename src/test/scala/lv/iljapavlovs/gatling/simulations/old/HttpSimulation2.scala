@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lv.iljapavlovs.gatling.simulations
+package lv.iljapavlovs.gatling.simulations.old
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
@@ -21,29 +21,39 @@ import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
 
+import scala.concurrent.duration._
+
 /**
-  * Example Gatling load test simulating ten users that each sends one single HTTP GET request.
-  * All the users will start sending requests immediately when the simulation is started.
+  * Example Gatling load test that sends two HTTP GET requests with a short pause between.
+  * The first request will be redirected, again making it look like there were two requests sent.
+  * The second request will not be redirected.
   * Run this simulation with:
-  * mvn -Dgatling.simulation.name=HttpSimulation3 gatling:test
+  * mvn -Dgatling.simulation.name=HttpSimulation2 gatling:test
   *
   * @author Ivan Krizsan
   */
-class HttpSimulation3 extends Simulation {
+class HttpSimulation2 extends Simulation {
 
     val theHttpProtocolBuilder: HttpProtocolBuilder = http
         .baseUrl("http://computer-database.gatling.io")
 
+    /*
+     * This scenario consists of two GET requests; one to the base URL and one to /computers relative
+     * to the base URL.
+     * Between the requests there will be a pause for five seconds.
+     * Note that in order to get access to different durations, we must add the following import:
+     * import scala.concurrent.duration._
+     */
     val theScenarioBuilder: ScenarioBuilder = scenario("Scenario1")
         .exec(
-            http("myRequest1")
+            http("GET to base URL")
+                .get("/"))
+        .pace(4.seconds)
+        .exec(
+            http("GET to /computers")
                 .get("/computers"))
 
     setUp(
-        /*
-         * Here we specify that ten simulated users shall start sending requests immediately
-         * in the Scenario1 scenario.
-         */
-        theScenarioBuilder.inject(atOnceUsers(10))
+        theScenarioBuilder.inject(atOnceUsers(1))
     ).protocols(theHttpProtocolBuilder)
 }

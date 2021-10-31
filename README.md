@@ -7,7 +7,11 @@ https://gatling.io/docs/current/extensions/maven_plugin/
 OR 
 
 ```
-mvn gatling:test -Dgatling.simulationClass=simulations.PerfomanceSimulation
+mvn gatling:test -Dgatling.simulationClass=simulations.PerfomanceSimulation //official way
+mvn gatling:test -Dgatling.simulations.package=<path> -Dgatling.simulations.name=Advanced
+
+mvn gatling:test -Dgatling.simulations.package=lv.iljapavlovs.gatling.simulations -Dgatling.simulations.name=ExitBlockOnFail
+
 ```
 
 

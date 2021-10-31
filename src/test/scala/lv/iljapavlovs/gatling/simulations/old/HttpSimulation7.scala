@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lv.iljapavlovs.gatling.simulations
+package lv.iljapavlovs.gatling.simulations.old
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
@@ -21,37 +21,32 @@ import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder.toActionBuilder
 
-import scala.concurrent.duration._
-
 /**
-  * Example Gatling load test that sends two HTTP GET requests with a short pause between.
-  * The first request will be redirected, again making it look like there were two requests sent.
-  * The second request will not be redirected.
+  * Example Gatling load test that sends one HTTP GET requests to a URL.
+  * The resulting HTTP status code should be one of the status codes in a list of expected status codes.
+  * The response body is examined and the request is considered to have failed if the specified regular
+  * expression is not matched.
   * Run this simulation with:
-  * mvn -Dgatling.simulation.name=HttpSimulation2 gatling:test
+  * mvn -Dgatling.simulation.name=HttpSimulation7 gatling:test
   *
   * @author Ivan Krizsan
   */
-class HttpSimulation2 extends Simulation {
-
+class HttpSimulation7 extends Simulation {
     val theHttpProtocolBuilder: HttpProtocolBuilder = http
         .baseUrl("http://computer-database.gatling.io")
 
-    /*
-     * This scenario consists of two GET requests; one to the base URL and one to /computers relative
-     * to the base URL.
-     * Between the requests there will be a pause for five seconds.
-     * Note that in order to get access to different durations, we must add the following import:
-     * import scala.concurrent.duration._
-     */
     val theScenarioBuilder: ScenarioBuilder = scenario("Scenario1")
         .exec(
-            http("GET to base URL")
-                .get("/"))
-        .pace(4.seconds)
-        .exec(
-            http("GET to /computers")
-                .get("/computers"))
+            http("Request Computers List")
+                .get("/computers")
+                /* Several checks on the response can be specified. */
+                .check(
+                    /* Check that the HTTP status returned is 200 or 201. */
+                    status.find.in(200, 202),
+                    /* Check that there is at least one match of the supplied regular expression in the response body. */
+                    regex("Computer database").count.gte(1)
+            )
+        )
 
     setUp(
         theScenarioBuilder.inject(atOnceUsers(1))

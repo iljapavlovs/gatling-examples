@@ -40,8 +40,9 @@
             This example will run the simulation with name HttpSimulation3 in the default simulations package:
             mvn -Dgatling.simulation.name=HttpSimulation3 gatling:test
         -->
-        <gatling.simulations.package>lv.iljapavlovs.gatling.tutorials</gatling.simulations.package>
-        <gatling.simulation.name>BasicSimulation101Test_1</gatling.simulation.name>
+        <gatling.simulations.package>lv.iljapavlovs.gatling.tutorials.advanced</gatling.simulations.package>
+        <gatling.simulations.name>Advanced</gatling.simulations.name>
+
     </properties>
 
     <dependencies>
@@ -74,7 +75,7 @@
                 <artifactId>gatling-maven-plugin</artifactId>
                 <version>${gatling-plugin.version}</version>
                 <configuration>
-                    <simulationClass>${gatling.simulations.package}.${gatling.simulation.name}</simulationClass>
+                    <simulationClass>${gatling.simulations.package}.${gatling.simulations.name}</simulationClass>
                 </configuration>
             </plugin>
         </plugins>
